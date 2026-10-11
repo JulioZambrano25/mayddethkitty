@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f7f5ee">
+  <meta name="description" content="Un rincón de recuerdos, cariño y pequeños ronroneos, hecho solo para ti.">
+  <title>Tu rincón de ronroneos</title>
+  <style>
+    :root { --paper:#f7f5ee; --ink:#303632; --muted:#69716a; --lilac:#d6c8eb; --purple:#65507d; --peach:#f4c3a6; --green:#dce6b6; --border:#dce0d5; --white:#fffefa; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:30px; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; color:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+    a:focus-visible, button:focus-visible, audio:focus-visible { outline:3px solid var(--purple); outline-offset:6px; }
+    button { border:0; }
+    h1,h2,h3,p,figure { margin:0; }
+    [hidden] { display:none!important; }
+    .wrap { width:min(1120px,calc(100% - 64px)); margin:auto; }
+    .skip { position:absolute; left:20px; top:-100px; padding:12px; background:var(--white); z-index:10; }
+    .skip:focus { top:10px; }
+    .symbols { position:absolute; width:0; height:0; overflow:hidden; }
+    .icon { width:24px; height:24px; display:block; fill:currentColor; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:27px 0; border-bottom:1px solid var(--border); }
+    .owner { display:flex; align-items:center; gap:12px; font-size:15px; font-weight:750; }
+    .owner .cat-icon { width:39px; height:39px; color:var(--purple); }
+    nav { display:flex; gap:30px; font-size:12px; }
+    nav a { padding:8px 0; }
+    nav a:hover { color:var(--purple); }
+    .hero { display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; padding:76px 0 73px; }
+    .kicker { font-size:10px; letter-spacing:.19em; font-weight:700; text-transform:uppercase; }
+    .welcome-tag { display:inline-flex; gap:9px; align-items:center; border:1px solid #cccdbd; padding:7px 12px; border-radius:30px; }
+    .welcome-tag .icon { width:13px; height:13px; }
+    h1 { font-size:clamp(46px,5.4vw,69px); font-weight:750; line-height:1.05; letter-spacing:-.065em; margin:25px 0; }
+    h1 span { color:var(--purple); }
+    .underlined { position:relative; display:inline-block; }
+    .underlined:after { content:""; position:absolute; height:7px; border-radius:50%; background:var(--peach); left:0; right:0; bottom:-8px; transform:rotate(-3deg); }
+    .hero-text { font-size:15px; color:var(--muted); max-width:360px; line-height:1.85; margin:30px 0 25px; }
+    .button { display:inline-flex; align-items:center; gap:19px; background:var(--ink); color:white; padding:14px 20px; border-radius:30px; font-size:12px; font-weight:550; transition:transform .2s,background .2s; }
+    .button:hover { transform:translateY(-3px); background:var(--purple); }
+    .hero-foot { display:flex; align-items:center; gap:12px; margin-top:28px; font-size:11px; color:var(--muted); }
+    .hero-foot .mini-cat { display:grid; place-items:center; width:39px; height:39px; border-radius:50%; background:var(--green); color:#5b6840; }
+    .hero-art { position:relative; padding:25px 14px 10px; min-width:0; }
+    .main-frame { width:100%; background:var(--lilac); padding:12px; border-radius:190px 190px 26px 26px; transform:rotate(3deg); position:relative; box-shadow:0 18px 0 #e8e4db; }
+    .main-frame:before,.main-frame:after { content:""; position:absolute; width:90px; height:95px; background:var(--lilac); top:10px; z-index:-1; }
+    .main-frame:before { left:25px; clip-path:polygon(0 0,100% 55%,22% 100%); transform:rotate(-10deg); }
+    .main-frame:after { right:25px; clip-path:polygon(100% 0,0 55%,78% 100%); transform:rotate(10deg); }
+    .main-photo { width:100%; aspect-ratio:4/4.8; border-radius:180px 180px 18px 18px; overflow:hidden; padding:0; display:block; background:#ebe3f4; position:relative; text-align:center; }
+    .photo-content { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:inherit; overflow:hidden; }
+    .photo-content img { width:100%; height:100%; position:absolute; inset:0; object-fit:cover; object-position:center; }
+    .photo-content .icon { width:42px; height:42px; color:#81718d; }
+    .placeholder-name { font-size:13px; color:var(--purple); font-weight:650; }
+    .placeholder-caption { font-size:11px; color:#746c7b; padding:0 25px; }
+    .main-label { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:14px 10px 3px; font-size:11px; }
+    .main-label strong { font-size:12px; font-weight:650; }
+    .star { position:absolute; font-size:58px; color:#b06d49; top:-10px; right:-12px; transform:rotate(15deg); z-index:1; pointer-events:none; }
+    .float-tag { position:absolute; left:-28px; bottom:38px; background:var(--green); border-radius:15px; transform:rotate(-8deg); padding:14px 20px; box-shadow:0 5px 12px #3036320d; font-size:11px; display:flex; align-items:center; gap:12px; pointer-events:none; }
+    .float-tag strong { display:block; font-size:16px; line-height:1.25; }
+    .float-tag .icon { width:30px; height:30px; color:#627143; }
+    .little-note { position:absolute; right:6px; bottom:-24px; font-size:11px; color:var(--muted); transform:rotate(3deg); }
+    .ticker { display:flex; align-items:center; justify-content:space-around; gap:20px; padding:23px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); font-size:13px; }
+    .ticker .icon { width:16px; height:16px; color:var(--purple); }
+    section { padding:76px 0; }
+    .album-heading { display:flex; justify-content:space-between; gap:30px; align-items:end; margin-bottom:35px; }
+    h2 { font-size:clamp(31px,3.5vw,43px); line-height:1.17; letter-spacing:-.055em; font-weight:650; margin:12px 0 15px; }
+    .section-text { font-size:13px; color:var(--muted); max-width:380px; line-height:1.8; }
+    .album-heading .counter { font-size:10px; border:1px solid var(--border); border-radius:30px; padding:8px 12px; white-space:nowrap; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:23px; }
+    .memory { display:block; width:100%; min-width:0; text-align:left; background:var(--white); border:1px solid var(--border); border-radius:18px; padding:10px 10px 20px; transition:transform .2s,box-shadow .2s; }
+    .memory:hover { transform:translateY(-6px); box-shadow:0 15px 25px #3036320b; }
+    .memory:nth-child(2) { transform:rotate(-2deg); }
+    .memory:nth-child(2):hover { transform:rotate(0deg) translateY(-6px); }
+    .thumb { aspect-ratio:1.13; position:relative; overflow:hidden; background:#e9e2f2; border-radius:11px; }
+    .memory:nth-child(2) .thumb { background:#f6dfc9; }
+    .memory:nth-child(3) .thumb { background:#e3e9cd; }
+    .number { position:absolute; bottom:12px; left:12px; border-radius:50%; display:grid; place-items:center; width:29px; height:29px; background:#fffefaed; font-size:10px; pointer-events:none; }
+    .memory-heading { display:flex; justify-content:space-between; gap:12px; align-items:start; margin:17px 8px 8px; }
+    .memory h3 { font-size:18px; line-height:1.3; letter-spacing:-.025em; font-weight:650; }
+    .memory .arrow { border:1px solid var(--border); border-radius:50%; width:25px; height:25px; text-align:center; flex-shrink:0; font-size:13px; }
+    .memory p { font-size:11px; color:var(--muted); margin:0 8px; line-height:1.65; }
+    .warm-strip { margin-top:46px; display:flex; align-items:center; gap:30px; background:var(--peach); border-radius:18px; padding:27px 34px; }
+    .warm-strip .cat-icon { width:65px; height:65px; color:#82503d; flex-shrink:0; }
+    .warm-strip p { font-size:20px; line-height:1.5; letter-spacing:-.025em; max-width:760px; }
+    .letter-section { border-top:1px solid var(--border); display:grid; grid-template-columns:1fr 1fr; gap:90px; align-items:start; }
+    .letter-section .cat-doodle { margin-top:28px; width:150px; height:85px; color:var(--purple); }
+    .letter-card { background:#e8def1; border:1px solid #d5c8e0; border-radius:18px; padding:30px; }
+    .letter-title { font-size:15px; font-weight:600; margin-bottom:15px; }
+    .letter-button { display:flex; width:100%; gap:15px; align-items:center; justify-content:center; background:var(--purple); color:white; padding:13px 18px; border-radius:30px; font-size:12px; }
+    .letter-button .icon { width:16px; height:16px; }
+    .letter-message { margin-top:25px; font-size:14px; line-height:1.95; }
+    .letter-message p+p { margin-top:18px; }
+    .signature { margin-top:25px; font-style:italic; color:var(--purple); font-size:12px; }
+    .music-card { display:flex; align-items:center; gap:24px; border:1px solid var(--border); border-radius:18px; padding:26px 30px; margin-bottom:65px; background:#edf0df; }
+    .music-icon { display:grid; place-items:center; font-size:26px; background:var(--green); width:60px; height:60px; border-radius:50%; flex-shrink:0; }
+    .music-copy { flex:1; min-width:0; }
+    .music-copy h3 { font-size:14px; line-height:1.5; font-weight:650; overflow-wrap:anywhere; }
+    .music-copy p { font-size:11px; color:var(--muted); }
+    .audio-area { width:min(350px,100%); }
+    audio { display:block; width:100%; }
+    .audio-status { font-size:11px; color:var(--muted); margin-top:8px; }
+    footer { border-top:1px solid var(--border); padding:28px 0; }
+    .footer { display:flex; justify-content:space-between; align-items:center; gap:20px; font-size:11px; color:var(--muted); }
+    .footer .owner { font-size:12px; }
+    .footer .cat-icon { width:25px; height:25px; }
+    .footer a { text-decoration:underline; text-underline-offset:4px; }
+    dialog { padding:24px; border:1px solid var(--border); border-radius:20px; width:min(730px,calc(100% - 30px)); max-height:92dvh; background:var(--paper); color:var(--ink); }
+    dialog::backdrop { background:#303632b8; backdrop-filter:blur(7px); }
+    body:has(dialog[open]) { overflow:hidden; }
+    .dialog-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:15px; }
+    .close { width:38px; height:38px; border-radius:50%; background:#e8def1; font-size:22px; }
+    .large-photo { position:relative; aspect-ratio:4/3; max-height:56dvh; background:#eae5f0; border-radius:12px; overflow:hidden; }
+    .large-photo img { object-fit:contain; }
+    .dialog-title { font-size:25px; margin:21px 0 10px; }
+    .dialog-story { font-size:13px; line-height:1.85; color:var(--muted); white-space:pre-line; }
+    .dialog-date { font-size:11px; color:var(--purple); margin-top:15px; }
+    @media(max-width:900px) {
+      .hero { gap:38px; padding-top:50px; } h1 { font-size:54px; }
+      .hero-art { padding:25px 5px 10px; } .float-tag { left:-15px; padding:11px 15px; }
+      .letter-section { gap:40px; } .music-card { flex-wrap:wrap; gap:18px; }
+      .audio-area { width:100%; } .grid { gap:15px; }
+    }
+    @media(max-width:600px) {
+      .wrap { width:calc(100% - 36px); } .nav { padding:19px 0; } .owner { font-size:13px; gap:8px; }
+      .owner .cat-icon { width:31px; height:31px; } nav { gap:18px; font-size:11px; }
+      .hero { grid-template-columns:1fr; gap:28px; padding:38px 0 55px; }
+      h1 { font-size:clamp(46px,12.5vw,62px); } .hero-text { max-width:100%; font-size:14px; }
+      .hero-foot { margin-top:20px; } .hero-art { width:min(390px,100%); margin:auto; padding:24px 10px 10px; }
+      .main-frame { border-radius:170px 170px 24px 24px; } .main-photo { border-radius:160px 160px 16px 16px; }
+      .float-tag { left:0; bottom:40px; } .star { font-size:49px; top:-7px; right:0; }
+      .ticker { gap:10px; font-size:10px; padding:21px 0; } .ticker .icon { width:12px; height:12px; }
+      section { padding:50px 0; } .album-heading { align-items:start; gap:15px; }
+      .album-heading .counter { font-size:9px; padding:6px 9px; margin-top:5px; }
+      .grid { grid-template-columns:1fr; gap:22px; } .memory { padding:11px 11px 22px; }
+      .memory:nth-child(2) { transform:none; } .thumb { aspect-ratio:1.28; }
+      .memory h3 { font-size:20px; } .memory p { font-size:12px; }
+      .warm-strip { padding:23px; gap:18px; margin-top:28px; } .warm-strip .cat-icon { width:42px; height:42px; }
+      .warm-strip p { font-size:17px; } .letter-section { grid-template-columns:1fr; gap:20px; }
+      .letter-section .cat-doodle { display:none; } .letter-card { padding:26px; }
+      .music-card { padding:23px; margin-bottom:45px; } .music-icon { width:45px; height:45px; font-size:23px; }
+      .footer { flex-wrap:wrap; gap:14px; } dialog { padding:18px; }
+    }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*:before,*:after { transition:none!important; animation:none!important; } }
+  </style>
+</head>
+<body>
+  <svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="paw" viewBox="0 0 64 64"><ellipse cx="14" cy="22" rx="7" ry="10" transform="rotate(-24 14 22)"/><ellipse cx="27" cy="13" rx="7" ry="10"/><ellipse cx="41" cy="14" rx="7" ry="10" transform="rotate(15 41 14)"/><ellipse cx="53" cy="25" rx="7" ry="10" transform="rotate(25 53 25)"/><path d="M19 37c5-10 20-10 26 0 4 7 12 13 7 20-4 5-12 0-20 0s-17 5-21 0c-5-7 4-13 8-20z"/></symbol>
+    <symbol id="cat" viewBox="0 0 80 80"><path d="M18 33l-3-24 21 13c3-1 5-1 8 0L65 9l-3 24c7 6 10 15 7 25-4 15-18 18-29 18S15 73 11 58c-3-10 0-19 7-25z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M23 47l8 3-8 3m34-6l-8 3 8 3M35 59h10l-5 4zM40 63v5m0-1c-5 5-9 2-10 0m10 0c5 5 9 2 10 0M6 55l14 2M4 65l16-3m54-7l-14 2m16 8l-16-3" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="sleeping-cat" viewBox="0 0 180 100"><path d="M125 70c35 1 41-29 16-35-16-3-21 11-13 18m-9 21H52c-20 0-35-11-31-28 2-9 9-14 19-15l-2-15 19 10 17-9 1 14c26-5 59 0 58 28 0 9-5 14-14 15z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 47l8 4 8-4m8 0l8 4 8-4M51 59h7m-14 3l-15-2m14 7l-15 3m39-8l14-2m-15 7l15 3m25-48h10l-10 12h10m7-23h13l-13 14h13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </svg>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+  <header class="wrap"><div class="nav"><a class="owner" href="#contenido"><svg class="cat-icon icon" aria-hidden="true"><use href="#cat"/></svg><span id="nombreRincon">Tu rincón de ronroneos</span></a><nav aria-label="Navegación"><a href="#recuerdos">Recuerdos</a><a href="#mensaje">Para ti ♡</a></nav></div></header>
+  <main id="contenido">
+    <section class="hero wrap" aria-labelledby="tituloPrincipal">
+      <div>
+        <div class="welcome-tag kicker"><svg class="icon" aria-hidden="true"><use href="#paw"/></svg>Hecho solo para ti</div>
+        <h1 id="tituloPrincipal">Un mundo de<br>recuerdos y<br><span class="underlined">ronroneos.</span></h1>
+        <p class="hero-text" id="bienvenida">Un rinconcito para volver a tus momentos favoritos. Con un poquito de cariño, unas cuantas huellitas y muchas razones para sonreír.</p>
+        <a class="button" href="#recuerdos">Abrir mis recuerdos <span aria-hidden="true">↗</span></a>
+        <div class="hero-foot"><span class="mini-cat"><svg class="icon" aria-hidden="true"><use href="#cat"/></svg></span><span>Los mejores recuerdos siempre encuentran su lugar.</span></div>
+      </div>
+      <div class="hero-art">
+        <span class="star" aria-hidden="true">✳</span>
+        <figure class="main-frame">
+          <!-- FOTO PRINCIPAL: IMAGENES/principal.png. Cambia la ruta en CONFIG al final. -->
+          <button class="main-photo" id="abrirPrincipal" type="button" aria-label="Ampliar la fotografía principal"><span class="photo-content" id="fotoPrincipal"></span></button>
+          <figcaption class="main-label"><strong id="piePrincipal">La protagonista de este rincón ♡</strong><span aria-hidden="true">↗</span></figcaption>
+        </figure>
+        <div class="float-tag" aria-hidden="true"><svg class="icon"><use href="#paw"/></svg><span>ESTE RINCÓN ES<strong>muy tuyo.</strong></span></div>
+        <span class="little-note">Una foto, un pedacito de ti.</span>
+      </div>
+    </section>
+    <div class="ticker wrap" aria-hidden="true"><span>Pequeños momentos</span><svg class="icon"><use href="#paw"/></svg><span>Grandes recuerdos</span><svg class="icon"><use href="#paw"/></svg><span>Mucho cariño</span></div>
+    <section class="wrap" id="recuerdos" aria-labelledby="tituloAlbum">
+      <div class="album-heading"><div><p class="kicker">El álbum de tus momentos</p><h2 id="tituloAlbum">Aquí se queda<br>lo bonito.</h2><p class="section-text">Hay instantes que dan ganas de guardar para siempre. Toca una fotografía y vuelve a su historia.</p></div><span class="counter">3 pequeñas historias ♡</span></div>
+      <!-- LAS TRES FOTOS DEL ÁLBUM se indican en CONFIG.momentos al final del archivo. -->
+      <div class="grid" id="galeria"></div>
+      <div class="warm-strip"><svg class="cat-icon icon" aria-hidden="true"><use href="#cat"/></svg><p>Como los gatos buscando un rayito de sol, que siempre encuentres un lugar cálido al volver a tus recuerdos.</p></div>
+    </section>
+    <section class="wrap letter-section" id="mensaje" aria-labelledby="tituloMensaje">
+      <div><p class="kicker">Un mensajito, de corazón</p><h2 id="tituloMensaje">Esto también<br>es para ti.</h2><p class="section-text">Algunas palabras se guardan como una fotografía. Estas merecen su propio rinconcito.</p><svg class="cat-doodle" aria-hidden="true"><use href="#sleeping-cat"/></svg></div>
+      <article class="letter-card"><p class="letter-title" id="saludo">Para ti, con mucho cariño.</p><button class="letter-button" id="abrirCarta" type="button" aria-expanded="false" aria-controls="textoCarta"><svg class="icon" aria-hidden="true"><use href="#paw"/></svg><span id="labelCarta">Una patita para abrir tu mensaje</span></button><div class="letter-message" id="textoCarta" hidden><div id="parrafosCarta"></div><p class="signature" id="firma"></p></div></article>
+    </section>
+    <div class="wrap music-card" id="musica"><span class="music-icon" aria-hidden="true">♫</span><div class="music-copy"><h3 id="nombreCancion">Una canción para tus recuerdos</h3><p>La banda sonora de este rinconcito.</p></div><div class="audio-area"><audio id="audio" controls loop preload="auto" aria-labelledby="nombreCancion">Tu navegador no permite reproducir audio.</audio><p class="audio-status" id="estadoAudio" role="status" hidden></p></div></div>
+  </main>
+  <footer><div class="footer wrap"><span class="owner"><svg class="cat-icon icon" aria-hidden="true"><use href="#cat"/></svg>Con cariño y un poquito de miau.</span><a href="#contenido">Volver arriba ↑</a></div></footer>
+  <dialog id="visor" aria-labelledby="tituloVisor"><div class="dialog-bar"><span class="kicker">Un recuerdo para guardar</span><button class="close" id="cerrarVisor" type="button" aria-label="Cerrar fotografía">×</button></div><div class="large-photo"><div class="photo-content" id="fotoVisor"></div></div><h2 class="dialog-title" id="tituloVisor"></h2><p class="dialog-story" id="historiaVisor"></p><p class="dialog-date" id="fechaVisor" hidden></p></dialog>
+  <noscript><p class="wrap">Activa JavaScript para mostrar las fotografías y abrir los recuerdos.</p></noscript>
+  <script>
+    // ============================================================
+    // PERSONALIZA AQUÍ. SOLO CAMBIA LOS TEXTOS ENTRE COMILLAS.
+    // Las carpetas IMAGENES y sonido van junto a este archivo HTML.
+    // Respeta las MAYÚSCULAS y la extensión exacta de cada archivo.
+    // Si usas otro nombre, cambia aquí su ruta. No necesitas editar
+    // el resto del código. Hay una foto principal y tres del álbum.
+    // No se necesitan librerías, instalación de paquetes ni servidor.
+    // ============================================================
+    const CONFIG = {
+      nombre: "Mayddeth", // <-- ESCRIBE AQUÍ EL NOMBRE DE TU AMIGA.
+      bienvenida: "Un rinconcito para volver a tus momentos favoritos. Con un poquito de cariño, unas cuantas huellitas y muchas razones para sonreír.",
+
+      principal: {
+        foto: "imagenes/principal.jpeg", // <-- FOTO 1: LA MÁS GRANDE, EN LA PORTADA.
+        titulo: "La protagonista de este rincón ♡",
+        historia: "Una fotografía para abrir este pequeño mundo de recuerdos. Puedes escribir aquí unas palabras sobre ella.",
+        fecha: "",
+      },
+      momentos: [
+        {
+          foto: "imagenes/sonrisa.jpeg", // <-- FOTO 2: PRIMER RECUERDO.
+          titulo: "Una sonrisa para guardar",
+          resumen: "Un instante al que siempre querrás volver.",
+          historia: "Escribe aquí qué pasó en esta fotografía y qué la hace especial para ella.",
+          fecha: "", // <-- OPCIONAL: por ejemplo, "10 de octubre de 2026".
+        },
+        {
+          foto: "imagenes/noveno.jpeg", // <-- FOTO 3: SEGUNDO RECUERDO.
+          titulo: "Cerquita del corazón",
+          resumen: "Las personas y los momentos que importan.",
+          historia: "Escribe aquí quiénes aparecen en esta fotografía y por qué este recuerdo merece quedarse.",
+          fecha: "",
+        },
+        {
+          foto: "imagenes/kity.jpeg", // <-- FOTO 4: TERCER RECUERDO.
+          titulo: "Qué bonito fue vivirlo",
+          resumen: "Un pedacito de una historia inolvidable.",
+          historia: "Escribe aquí una pequeña anécdota de este día, una celebración o una aventura compartida.",
+          fecha: "",
+        },
+      ],
+      carta: [
+        "Este rincón es para ti: para tus recuerdos, tus personas favoritas y esos momentos que hacen más bonita la vida.",
+        "Ojalá cada fotografía te devuelva una sonrisa. Que puedas volver a un día especial, a un abrazo o a esas pequeñas cosas que siguen teniendo un lugar en tu corazón.",
+        "Y, como un gatito encontrando su rayito de sol, que siempre tengas cerca algo que te haga sentir feliz y en casa.",
+      ],
+      firma: "Con mucho cariño MEMORIX - Un recuerdo, mil emociones", // <-- TU NOMBRE O TU DESPEDIDA.
+
+      musica: {
+        archivo: "audio/cancion.mpeg", // <-- COLOCA AQUÍ LA RUTA DE TU CANCIÓN.
+        titulo: "Una canción para tus recuerdos",
+        // Puedes usar "sonido/cancion.mp3" si tu archivo es MP3.
+        // Para quitar la música, deja archivo: "".
+      },
+    };
+
+    const $ = id => document.getElementById(id);
+    const PAW = '<svg class="icon" aria-hidden="true"><use href="#paw"/></svg>';
+
+    function mostrarFoto(elemento, ruta, titulo, etiqueta) {
+      elemento.replaceChildren();
+      function mostrarEspacio() {
+        elemento.replaceChildren();
+        const icono = document.createElement("span");
+        icono.innerHTML = PAW;
+        const nombre = document.createElement("span");
+        nombre.className = "placeholder-name";
+        nombre.textContent = etiqueta;
+        const detalle = document.createElement("span");
+        detalle.className = "placeholder-caption";
+        detalle.textContent = "Aquí irá una fotografía especial.";
+        elemento.append(icono, nombre, detalle);
+      }
+      if (!ruta) { mostrarEspacio(); return; }
+      const imagen = document.createElement("img");
+      imagen.alt = titulo;
+      imagen.loading = elemento.id === "fotoPrincipal" || elemento.id === "fotoVisor" ? "eager" : "lazy";
+      imagen.decoding = "async";
+      imagen.addEventListener("error", mostrarEspacio, { once:true });
+      imagen.src = ruta;
+      elemento.append(imagen);
+    }
+
+    if (CONFIG.nombre.trim()) {
+      $("nombreRincon").textContent = "El rincón de " + CONFIG.nombre;
+      $("saludo").textContent = "Para " + CONFIG.nombre + ", con mucho cariño.";
+      document.title = "El rincón de " + CONFIG.nombre;
+    }
+    $("bienvenida").textContent = CONFIG.bienvenida;
+    $("piePrincipal").textContent = CONFIG.principal.titulo;
+    mostrarFoto($("fotoPrincipal"), CONFIG.principal.foto, CONFIG.principal.titulo, "Foto principal");
+
+    function abrirFoto(recuerdo) {
+      $("tituloVisor").textContent = recuerdo.titulo;
+      $("historiaVisor").textContent = recuerdo.historia;
+      $("fechaVisor").textContent = recuerdo.fecha || "";
+      $("fechaVisor").hidden = !recuerdo.fecha;
+      mostrarFoto($("fotoVisor"), recuerdo.foto, recuerdo.titulo, "Tu recuerdo");
+      $("visor").showModal();
+    }
+    $("abrirPrincipal").addEventListener("click", () => abrirFoto(CONFIG.principal));
+    CONFIG.momentos.forEach((recuerdo, indice) => {
+      const boton = document.createElement("button");
+      boton.type = "button";
+      boton.className = "memory";
+      boton.setAttribute("aria-label", "Abrir recuerdo: " + recuerdo.titulo);
+      const marco = document.createElement("div");
+      marco.className = "thumb";
+      const foto = document.createElement("div");
+      foto.className = "photo-content";
+      mostrarFoto(foto, recuerdo.foto, recuerdo.titulo, "Recuerdo " + (indice + 1));
+      const numero = document.createElement("span");
+      numero.className = "number";
+      numero.textContent = "0" + (indice + 1);
+      numero.setAttribute("aria-hidden", "true");
+      marco.append(foto, numero);
+      const encabezado = document.createElement("div");
+      encabezado.className = "memory-heading";
+      const titulo = document.createElement("h3");
+      titulo.textContent = recuerdo.titulo;
+      const flecha = document.createElement("span");
+      flecha.className = "arrow";
+      flecha.textContent = "↗";
+      flecha.setAttribute("aria-hidden", "true");
+      encabezado.append(titulo, flecha);
+      const texto = document.createElement("p");
+      texto.textContent = recuerdo.resumen;
+      boton.append(marco, encabezado, texto);
+      boton.addEventListener("click", () => abrirFoto(recuerdo));
+      $("galeria").append(boton);
+    });
+    $("cerrarVisor").addEventListener("click", () => $("visor").close());
+    $("visor").addEventListener("click", evento => {
+      const r = $("visor").getBoundingClientRect();
+      if (evento.target === $("visor") && (evento.clientX < r.left || evento.clientX > r.right || evento.clientY < r.top || evento.clientY > r.bottom)) $("visor").close();
+    });
+    CONFIG.carta.forEach(texto => { const p = document.createElement("p"); p.textContent = texto; $("parrafosCarta").append(p); });
+    $("firma").textContent = CONFIG.firma;
+    $("abrirCarta").addEventListener("click", () => {
+      const abierto = $("textoCarta").hidden;
+      $("textoCarta").hidden = !abierto;
+      $("abrirCarta").setAttribute("aria-expanded", String(abierto));
+      $("labelCarta").textContent = abierto ? "Guardar mi mensaje ♡" : "Una patita para abrir tu mensaje";
+    });
+
+    // La música empieza con la primera interacción real. Si se pausa
+    // después, los demás clics no vuelven a activarla. Un rechazo del
+    // navegador permite reintentar en el siguiente toque.
+    if (CONFIG.musica.archivo) {
+      const audio = $("audio");
+      $("nombreCancion").textContent = CONFIG.musica.titulo;
+      audio.addEventListener("error", () => {
+        $("estadoAudio").textContent = "La canción no está disponible por el momento.";
+        $("estadoAudio").hidden = false;
+      });
+      audio.src = CONFIG.musica.archivo;
+      const eventos = ["pointerup", "touchend", "click", "keydown"];
+      let iniciada = false;
+      let pendiente = false;
+      function retirarEventos() {
+        iniciada = true;
+        eventos.forEach(tipo => document.removeEventListener(tipo, iniciarAudio, true));
+        $("estadoAudio").hidden = true;
+      }
+      function iniciarAudio(evento) {
+        if (!evento.isTrusted || iniciada || pendiente) return;
+        if (evento.target === audio || audio.contains(evento.target)) return;
+        if (evento.type === "keydown" && ["Shift", "Control", "Alt", "Meta", "Escape"].includes(evento.key)) return;
+        pendiente = true;
+        audio.play().then(retirarEventos).catch(() => {}).finally(() => { pendiente = false; });
+      }
+      audio.addEventListener("playing", retirarEventos);
+      eventos.forEach(tipo => document.addEventListener(tipo, iniciarAudio, { capture:true, passive:true }));
+    } else {
+      $("musica").hidden = true;
+    }
+  </script>
+</body>
+</html>
